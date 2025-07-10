@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CyberGuardX - Ethical Hacker</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap');
+  body {
+    margin: 0;
+    overflow: hidden;
+    background: black;
+    color: #00ff99;
+    font-family: 'Courier Prime', monospace, monospace;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+  }
+  h1 {
+    font-size: 4em;
+    text-shadow: 0 0 20px #00ff99;
+    z-index: 1;
+    margin-bottom: 10px;
+  }
+  .instagram-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    z-index: 1;
+  }
+  .instagram-icon {
+    width: 48px;
+    height: 48px;
+    animation: glow 2s infinite alternate;
+  }
+  .instagram-username {
+    display: flex;
+    align-items: center;
+    margin-top: 6px;
+    font-size: 1.3em;
+    color: white;
+    text-shadow: 0 0 8px #00ff99;
+    font-weight: 600;
+  }
+  .verified-badge {
+    width: 20px;
+    height: 20px;
+    margin-left: 8px;
+    filter: drop-shadow(0 0 3px #1DA1F2);
+  }
+  @keyframes glow {
+    from {
+      filter: drop-shadow(0 0 6px #00ff99);
+    }
+    to {
+      filter: drop-shadow(0 0 14px #00ff99);
+    }
+  }
+  .changing-text {
+    font-size: 1.5em;
+    margin-top: 10px;
+    text-shadow: 0 0 10px #00ff99;
+    z-index: 1;
+  }
+  canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 0;
+  }
+</style>
+</head>
+<body>
+<canvas id="matrix"></canvas>
+<h1>CyberGuardX</h1>
+
+<div class="instagram-container">
+  <a href="https://instagram.com/y2my" target="_blank" rel="noopener noreferrer" style="text-decoration:none; display: flex; flex-direction: column; align-items: center;">
+    <!-- شعار إنستقرام بالألوان الأصلية -->
+    <svg class="instagram-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" >
+      <defs>
+        <linearGradient id="instaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#feda75"/>
+          <stop offset="25%" stop-color="#fa7e1e"/>
+          <stop offset="50%" stop-color="#d62976"/>
+          <stop offset="75%" stop-color="#962fbf"/>
+          <stop offset="100%" stop-color="#4f5bd5"/>
+        </linearGradient>
+      </defs>
+      <path fill="url(#instaGrad)" d="M7.75 2A5.75 5.75 0 002 7.75v8.5A5.75 5.75 0 007.75 22h8.5A5.75 5.75 0 0022 16.25v-8.5A5.75 5.75 0 0016.25 2h-8.5z"/>
+      <circle cx="12" cy="12" r="3" fill="white"/>
+      <circle cx="16.5" cy="7.5" r="1.5" fill="url(#instaGrad)"/>
+    </svg>
+
+    <div class="instagram-username">
+      @y2my
+      <svg class="verified-badge" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#1DA1F2">
+        <path d="M22.5 12c0 5.25-4.25 9.5-9.5 9.5S3.5 17.25 3.5 12 7.75 2.5 13 2.5 22.5 6.75 22.5 12z"/>
+        <path fill="white" d="M10 14.5l-2-2 1.06-1.06L10 12.38l4.44-4.44L16 9.5l-6 6z"/>
+      </svg>
+    </div>
+  </a>
+</div>
+
+<div class="changing-text" id="changingText"></div>
+
+<script>
+  // Matrix background
+  const canvas = document.getElementById("matrix");
+  const ctx = canvas.getContext("2d");
+  canvas.height = window.innerHeight;
+  canvas.width = window.innerWidth;
+  let cols = canvas.width / 20;
+  let drops = Array(Math.floor(cols)).fill(1);
+
+  function draw() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#00ff99";
+    ctx.font = "20px monospace";
+    for(let i = 0; i < drops.length; i++) {
+      let text = String.fromCharCode(0x30A0 + Math.random() * 96);
+      ctx.fillText(text, i * 20, drops[i] * 20);
+      if(drops[i] * 20 > canvas.height && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
+    }
+  }
+  setInterval(draw, 35);
+
+  window.addEventListener("resize", () => {
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+    cols = canvas.width / 20;
+    drops = Array(Math.floor(cols)).fill(1);
+  });
+
+  // Changing text
+  const phrases = [
+    "Ethical Hacker",
+    "Cybersecurity Specialist",
+    "Protecting the Digital World",
+    "Stay Secure, Stay Ahead"
+  ];
+  let phraseIndex = 0;
+  const textDiv = document.getElementById("changingText");
+
+  function changePhrase() {
+    textDiv.textContent = phrases[phraseIndex];
+    phraseIndex = (phraseIndex + 1) % phrases.length;
+  }
+  changePhrase();
+  setInterval(changePhrase, 2000);
+</script>
+</body>
+</html>
